@@ -6,6 +6,12 @@ const dbConfig = {
     database: process.env.DB_DATABASE,
 };
 
+const w_table = [
+    process.env.WORK_TABLE1,
+    process.env.WORK_TABLE2
+];
+
 module.exports = {
     dbConfig,
+    w_table,
 };

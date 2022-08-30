@@ -1,7 +1,7 @@
 GET http://localhost:3000/api/users
 ###
 
-GET http://localhost:3000/api/articles
+GET http://localhost:3000/api/articles?limit=5&orderBy=body
 ###
 
 GET http://localhost:3000/api/articles/

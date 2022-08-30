@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="./front.js" defer></script>
+    <link rel="stylesheet" href="./css/style.css" />
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="container" style="margin-top:20px">
+
+        <div class="card">
+            <form action="" id="form1">
+                <input type="text" placeholder="name" name="name" value="">
+                <input type="number" placeholder="age" name="age" value="20"> Has Car<input style="display:inline" type="checkbox" name="hasCar" value="1" checked>
+                <input type="text" placeholder="town" name="town" value="">
+                <button type="submit">Sukurti useri</button>
+                <p id="createSucc" style="display:inline"></p>
+            </form>
+        </div>
+        <div>
+            <button id="allUsers">Visi users</button>
+            <button id="nameAsc">Name ASC</button>
+            <button id="nameDesc">Name DESC</button>
+            <button id="userId">User ID</button>
+            <input style="display:inline; width: 80px;" type="text" placeholder="1,2,3..." id="userNumber" value="">
+            <button id="hasCar">hasCar</button>
+            <button id="adults">Adults</button>
+            <button id="townId">Town</button>
+            <input style="display:inline; width: 100px;" type="text" placeholder="miestas" id="townNumber" value="">
+        </div>
+        <div id="table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Age</th>
+                        <th>HasCar</th>
+                        <th>Town</th>
+                        <th>Created</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</body>
+
+</html>
