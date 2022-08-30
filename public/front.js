@@ -59,6 +59,16 @@ async function getQuery() {
         qParam += `?id=${userNumberEl.value}`;
     }
 
+    const fieldsEl = document.querySelector('#fields');
+    if (fieldsEl.value !== 'space') {
+        const fldvalEl = document.querySelector('#fldval');
+        if (fldvalEl.value !== 'space') {
+            qParam += qParam === '' ? '?' : '&';
+            qParam += `fields=${fieldsEl.value}&values=${fldvalEl.value}`
+        }
+
+    }
+
     const orderbyEl = document.querySelector('#orderby');
     if (orderbyEl.value !== 'space') {
         qParam += qParam === '' ? '?' : '&';
@@ -68,7 +78,7 @@ async function getQuery() {
             qParam += `&ordered=${orderedEl.value}`;
         }
     }
-    //alert(qParam);
+    // alert(qParam);
     const resp = await fetch(`http://localhost:3000/api/articles${qParam}`);
     createTable(await resp.json());
 }

@@ -26,17 +26,27 @@ app.get('/api/articles', async(req, res) => {
     console.log('req.query ==='.bgGreen, req.query);
     try {
         const conn = await mysql.createConnection(dbConfig);
-        let sql = `SELECT * FROM ${tableName} WHERE archive = 0`;
+        //       let sql = `SELECT * FROM ${tableName} WHERE archive = 0`;
+        let sql = `SELECT * FROM ${tableName} WHERE archive `;
+        if (req.query.fields === 'archive') {
+            sql += req.query.values;
+        } else {
+            sql += '0';
+        }
+
         let numId = [];
         if (req.query.id) {
             numId = req.query.id.split(',');
             let str = numId.reduce((rez) => rez += '?,', '').substring(0, numId.length * 2 - 1);
-            console.log(numId, numId.length, str, str.length);
             sql += ` AND id IN (${str})`;
-            //  const [rows] = await conn.execute(sql, numId);
-            //  res.status(200).json(rows);
-            //  await conn.end();
-            //return;
+        }
+
+        if (req.query.fields !== 'archive') {
+            if (req.query.fields) {
+                if (req.query.values) {
+                    sql += ` AND ${req.query.fields} ${req.query.values}`;
+                }
+            }
         }
 
         if (req.query.orderBy) {
@@ -64,10 +74,8 @@ app.get('/api/articles', async(req, res) => {
 
 // DELETE /api/articles/:aId
 app.delete('/api/articles', async(req, res) => {
-    //   console.log(req.query.id, req.query.val);
     try {
         const conn = await mysql.createConnection(dbConfig);
-        //        const sql = 'DELETE FROM posts WHERE id = ?';
         const sql = `UPDATE ${tableName} SET archive = ? WHERE id = ?`;
         const [rows] = await conn.execute(sql, [req.query.val, req.query.id]);
         if (rows.affectedRows === 1) {
