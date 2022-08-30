@@ -1,3 +1,9 @@
+/* eslint-disable linebreak-style */
+/* eslint-disable no-undef */
+'use strict';
+
+// const { w_table } = require('../src/config.js');
+
 // Nusitaikom
 const allUsersEl = document.querySelector('#allUsers');
 const nameAscsEl = document.querySelector('#nameAsc');
@@ -59,11 +65,11 @@ async function createUser(newPostObj) {
     setTimeout(() => {
         createSuccEl.innerHTML = '';
         document.forms[0].reset();
-    }, 3000)
+    }, 3000);
 }
 
 async function getUsers() {
-    const resp = await fetch('http://localhost:3000/api/users');
+    const resp = await fetch('http://localhost:3000/api/articles');
     createTable(await resp.json());
 }
 
@@ -75,8 +81,8 @@ async function getUsersOrder(orderDirect) {
 async function getUsersId(id) {
     const resp = await fetch(`http://localhost:3000/api/users/${id}`);
     if (!resp.ok) {
-        alert('rezultatu nera !!!')
-        return
+        alert('rezultatu nera !!!');
+        return;
     }
     createTable(await resp.json());
 }
@@ -94,8 +100,8 @@ async function getUsersAdults() {
 async function getUsersTown(name) {
     const resp = await fetch(`http://localhost:3000/api/users/towns/${name}`);
     if (!resp.ok) {
-        alert('rezultatu nera !!!')
-        return
+        alert('rezultatu nera !!!');
+        return;
     }
     createTable(await resp.json());
 }
@@ -103,7 +109,7 @@ async function getUsersTown(name) {
 function createTable(arr) {
     let allEl = '';
     for (let i = 0; i < arr.length; i++) {
-        turiMasina = arr[i].hasCar ? 'turi' : 'neturi'
+        const turiMasina = arr[i].hasCar ? 'turi' : 'neturi';
         allEl += `<tr><td>${arr[i].id}</td><td>${arr[i].name}</td><td>${arr[i].age}</td><td>${turiMasina}</td><td>${arr[i].town}</td><td>${arr[i].createdAt.substring(0,10)}<br>${arr[i].createdAt.substring(11,19)}</td></tr>`;
     }
     tbodyEl.innerHTML = allEl;

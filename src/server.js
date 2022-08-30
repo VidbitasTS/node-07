@@ -29,8 +29,20 @@ app.get('/api/articles', async(req, res) => {
         let sql = `SELECT * FROM ${tableName}`;
 
         if (req.query.id) {
-            sql += ' WHERE id = ?';
-            const [rows] = await conn.execute(sql, [req.query.id]);
+            //sql += ' WHERE id = ?';
+            let id = req.query.id;
+            let str = '';
+            let idArr = [];
+            for (let i = 0; i < id.length; i++) {
+                if (id[i] !== ',') {
+                    str += '?';
+                    idArr.push(id[i]);
+                } else {
+                    str += ',';
+                }
+            }
+            sql += ` WHERE id IN (${str})`;
+            const [rows] = await conn.execute(sql, idArr);
             res.status(200).json(rows);
             await conn.end();
             return;
