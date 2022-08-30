@@ -32,3 +32,12 @@ td {
 #createSucc {
     color: green;
 }
+
+#userNumber {
+    display: inline;
+    width: 80px;
+}
+
+#userNumber:hover {
+    width: 200px;
+}

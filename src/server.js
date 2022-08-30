@@ -26,23 +26,14 @@ app.get('/api/articles', async(req, res) => {
     console.log('req.query ==='.bgGreen, req.query);
     try {
         const conn = await mysql.createConnection(dbConfig);
-        let sql = `SELECT * FROM ${tableName}`;
+        let sql = `SELECT * FROM ${tableName} WHERE archive = 0`;
 
         if (req.query.id) {
-            //sql += ' WHERE id = ?';
-            let id = req.query.id;
-            let str = '';
-            let idArr = [];
-            for (let i = 0; i < id.length; i++) {
-                if (id[i] !== ',') {
-                    str += '?';
-                    idArr.push(id[i]);
-                } else {
-                    str += ',';
-                }
-            }
-            sql += ` WHERE id IN (${str})`;
-            const [rows] = await conn.execute(sql, idArr);
+            const numId = req.query.id.split(',');
+            let str = numId.reduce((rez) => rez += '?,', '').substring(0, numId.length * 2 - 1);
+            console.log(numId, numId.length, str, str.length);
+            sql += ` AND id IN (${str})`;
+            const [rows] = await conn.execute(sql, numId);
             res.status(200).json(rows);
             await conn.end();
             return;

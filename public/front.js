@@ -10,7 +10,7 @@ const nameAscsEl = document.querySelector('#nameAsc');
 const nameDescsEl = document.querySelector('#nameDesc');
 const tbodyEl = document.querySelector('tbody');
 const createSuccEl = document.querySelector('#createSucc');
-const userIdEl = document.querySelector('#userId');
+// const userIdEl = document.querySelector('#userId');
 const hasCarEl = document.querySelector('#hasCar');
 const adultsEl = document.querySelector('#adults');
 const townEl = document.querySelector('#townId');
@@ -31,14 +31,14 @@ document.forms[0].addEventListener('submit', (e) => {
 allUsersEl.addEventListener('click', async() => await getUsers());
 nameAscsEl.addEventListener('click', async() => await getUsersOrder('asc'));
 nameDescsEl.addEventListener('click', async() => await getUsersOrder('desc'));
-userIdEl.addEventListener('click', async() => {
-    const userNumberEl = document.querySelector('#userNumber');
-    if (userNumberEl.value === '') {
-        alert('Neivedet ID');
-        return;
-    }
-    await getUsersId(userNumberEl.value);
-});
+// userIdEl.addEventListener('click', async() => {
+//     const userNumberEl = document.querySelector('#userNumber');
+//     if (userNumberEl.value === '') {
+//         alert('Neivedet ID');
+//         return;
+//     }
+//     await getUsersId(userNumberEl.value);
+// });
 hasCarEl.addEventListener('click', async() => await getUsersHasCar());
 adultsEl.addEventListener('click', async() => await getUsersAdults());
 townEl.addEventListener('click', async() => {
@@ -69,7 +69,12 @@ async function createUser(newPostObj) {
 }
 
 async function getUsers() {
-    const resp = await fetch('http://localhost:3000/api/articles');
+    const userNumberEl = document.querySelector('#userNumber');
+    let qParam = '';
+    if (userNumberEl !== '') {
+        qParam += `?id=${userNumberEl.value}`;
+    }
+    const resp = await fetch(`http://localhost:3000/api/articles${qParam}`);
     createTable(await resp.json());
 }
 
