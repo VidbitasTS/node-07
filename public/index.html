@@ -25,11 +25,6 @@
         <div>
             <button id="allUsers">Users</button>
             <input type="search" placeholder="(List id)1,2,3..." id="userNumber" value="">
-            <select name="odered" id="ordered">
-							<option value="space" selected>Ordered</option>
-							<option value="asc">ASC</option>
-							<option value="desc">DESC</option>
-						</select>
             <select name="oderby" id="orderby">
 							<option value="space" selected>OrderBy</option>
 							<option value="id">ID</option>
@@ -38,13 +33,23 @@
 							<option value="hascar">HASCAR</option>
 							<option value="town">TOWN</option>
 						</select>
+            <select name="odered" id="ordered">
+							<option value="space" selected>Ordered</option>
+							<option value="asc">ASC</option>
+							<option value="desc">DESC</option>
+						</select>
             <!-- <button id="nameAsc">Name ASC</button>
             <button id="nameDesc">Name DESC</button> -->
             <!-- <button id="userId">User ID</button> -->
-            <button id="hasCar">hasCar</button>
+            <!-- <button id="hasCar">hasCar</button>
             <button id="adults">Adults</button>
             <button id="townId">Town</button>
-            <input style="display:inline; width: 100px;" type="text" placeholder="miestas" id="townNumber" value="">
+            <input style="display:inline; width: 100px;" type="text" placeholder="miestas" id="townNumber" value=""> -->
+
+            <button id="delete">Delete</button>
+            <input style="display:inline; width: 80px;" type="number" placeholder="del id" id="deleteId" value="">
+            <button id="undo">Undo</button>
+            <input style="display:inline; width: 80px;" type="number" placeholder="undo id" id="undoId" value="">
         </div>
         <div id="table">
             <table>

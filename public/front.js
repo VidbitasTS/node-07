@@ -2,18 +2,11 @@
 /* eslint-disable no-undef */
 'use strict';
 
-// const { w_table } = require('../src/config.js');
-
 // Nusitaikom
 const allUsersEl = document.querySelector('#allUsers');
-// const nameAscsEl = document.querySelector('#nameAsc');
-// const nameDescsEl = document.querySelector('#nameDesc');
 const tbodyEl = document.querySelector('tbody');
 const createSuccEl = document.querySelector('#createSucc');
-// const userIdEl = document.querySelector('#userId');
-// const hasCarEl = document.querySelector('#hasCar');
-// const adultsEl = document.querySelector('#adults');
-// const townEl = document.querySelector('#townId');
+const deleteEl = document.querySelector('#delete');
 
 // AddEventListener
 document.forms[0].addEventListener('submit', (e) => {
@@ -28,27 +21,12 @@ document.forms[0].addEventListener('submit', (e) => {
     createUser(dummy);
 });
 
-allUsersEl.addEventListener('click', async() => await getUsers());
-// nameAscsEl.addEventListener('click', async() => await getUsersOrder('asc'));
-// nameDescsEl.addEventListener('click', async() => await getUsersOrder('desc'));
-// userIdEl.addEventListener('click', async() => {
-//     const userNumberEl = document.querySelector('#userNumber');
-//     if (userNumberEl.value === '') {
-//         alert('Neivedet ID');
-//         return;
-//     }
-//     await getUsersId(userNumberEl.value);
-// });
-// hasCarEl.addEventListener('click', async() => await getUsersHasCar());
-// adultsEl.addEventListener('click', async() => await getUsersAdults());
-// townEl.addEventListener('click', async() => {
-//     const townNumberEl = document.querySelector('#townNumber');
-//     if (townNumberEl.value === '') {
-//         alert('Neivedet miesto');
-//         return;
-//     }
-//     await getUsersTown(townNumberEl.value);
-// });
+allUsersEl.addEventListener('click', async() => await getQuery());
+
+deleteEl.addEventListener('click', async() => {
+    const deleteIdEl = document.querySelector('#deleteId');
+    await deleteUser(deleteIdEl.value);
+});
 
 // Funkcijos
 async function createUser(newPostObj) {
@@ -68,48 +46,43 @@ async function createUser(newPostObj) {
     }, 3000);
 }
 
-async function getUsers() {
+async function getQuery() {
     const userNumberEl = document.querySelector('#userNumber');
     let qParam = '';
-    if (userNumberEl !== '') {
+    if (userNumberEl.value !== '') {
         qParam += `?id=${userNumberEl.value}`;
     }
+
+    const orderbyEl = document.querySelector('#orderby');
+    if (orderbyEl.value !== 'space') {
+        qParam += qParam === '' ? '?' : '&';
+        qParam += `orderBy=${orderbyEl.value}`;
+        const orderedEl = document.querySelector('#ordered');
+        if (orderedEl.value !== 'space') {
+            qParam += `&ordered=${orderedEl.value}`;
+        }
+    }
+    alert(qParam);
     const resp = await fetch(`http://localhost:3000/api/articles${qParam}`);
     createTable(await resp.json());
 }
 
-// async function getUsersOrder(orderDirect) {
-//     const resp = await fetch(`http://localhost:3000/api/users/order/${orderDirect}`);
-//     createTable(await resp.json());
-// }
-
-// async function getUsersId(id) {
-//     const resp = await fetch(`http://localhost:3000/api/users/${id}`);
-//     if (!resp.ok) {
-//         alert('rezultatu nera !!!');
-//         return;
-//     }
-//     createTable(await resp.json());
-// }
-
-// async function getUsersHasCar() {
-//     const resp = await fetch('http://localhost:3000/api/users/drivers');
-//     createTable(await resp.json());
-// }
-
-// async function getUsersAdults() {
-//     const resp = await fetch('http://localhost:3000/api/users/adults');
-//     createTable(await resp.json());
-// }
-
-// async function getUsersTown(name) {
-//     const resp = await fetch(`http://localhost:3000/api/users/towns/${name}`);
-//     if (!resp.ok) {
-//         alert('rezultatu nera !!!');
-//         return;
-//     }
-//     createTable(await resp.json());
-// }
+async function deleteUser(id) {
+    const resp = await fetch(`http://localhost:3000/api/articles/${id}`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ archive: true }),
+    });
+    if (resp.ok) {
+        createSuccEl.innerHTML = `${id} useris sekmingai istrintas!!!`;
+    } else {
+        createSuccEl.innerHTML = `${id} userio istrinti nepavyko!!!`;
+    }
+    setTimeout(() => {
+        createSuccEl.innerHTML = '';
+        document.forms[0].reset();
+    }, 3000);
+}
 
 function createTable(arr) {
     let allEl = '';

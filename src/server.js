@@ -66,7 +66,8 @@ app.get('/api/articles', async(req, res) => {
 app.delete('/api/articles/:aId', async(req, res) => {
     try {
         const conn = await mysql.createConnection(dbConfig);
-        const sql = 'DELETE FROM posts WHERE id = ?';
+        //        const sql = 'DELETE FROM posts WHERE id = ?';
+        const sql = `UPDATE ${tableName} SET archive = '1' WHERE id = ?`;
         const [rows] = await conn.execute(sql, [req.params.aId]);
         if (rows.affectedRows === 1) {
             res.json({
@@ -79,7 +80,6 @@ app.delete('/api/articles/:aId', async(req, res) => {
         }
         await conn.end();
     } catch (error) {
-        console.log('error ', error);
         res.status(500).json({
             msg: 'Something went wrong',
         });
