@@ -1,0 +1,32 @@
+{
+    "name": "07-mysql-edit-delete-query",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "start": "nodemon src/server.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/MariusCodeAcademy/type12-node-07-mysql-edit-delete-query.git"
+    },
+    "keywords": [],
+    "author": "Marius K. <Marius@gmail.com>",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/MariusCodeAcademy/type12-node-07-mysql-edit-delete-query/issues"
+    },
+    "homepage": "https://github.com/MariusCodeAcademy/type12-node-07-mysql-edit-delete-query#readme",
+    "dependencies": {
+        "colors": "^1.4.0",
+        "cors": "^2.8.5",
+        "dotenv": "^16.0.1",
+        "express": "^4.18.1",
+        "morgan": "^1.10.0",
+        "mysql2": "^2.3.3"
+    },
+    "devDependencies": {
+        "eslint": "^8.23.0",
+        "nodemon": "^2.0.19"
+    }
+}
