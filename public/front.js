@@ -7,6 +7,7 @@ const allUsersEl = document.querySelector('#allUsers');
 const tbodyEl = document.querySelector('tbody');
 const createSuccEl = document.querySelector('#createSucc');
 const deleteEl = document.querySelector('#delete');
+const undoEl = document.querySelector('#undo');
 
 // AddEventListener
 document.forms[0].addEventListener('submit', (e) => {
@@ -25,7 +26,12 @@ allUsersEl.addEventListener('click', async() => await getQuery());
 
 deleteEl.addEventListener('click', async() => {
     const deleteIdEl = document.querySelector('#deleteId');
-    await deleteUser(deleteIdEl.value);
+    await deleteUser(deleteIdEl.value, 1);
+});
+
+undoEl.addEventListener('click', async() => {
+    const deleteIdEl = document.querySelector('#deleteId');
+    await deleteUser(deleteIdEl.value, 0);
 });
 
 // Funkcijos
@@ -62,26 +68,32 @@ async function getQuery() {
             qParam += `&ordered=${orderedEl.value}`;
         }
     }
-    alert(qParam);
+    //alert(qParam);
     const resp = await fetch(`http://localhost:3000/api/articles${qParam}`);
     createTable(await resp.json());
 }
 
-async function deleteUser(id) {
-    const resp = await fetch(`http://localhost:3000/api/articles/${id}`, {
+async function deleteUser(id, val) {
+    const resp = await fetch(`http://localhost:3000/api/articles?id=${id}&val=${val}`, {
         method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ archive: true }),
     });
     if (resp.ok) {
-        createSuccEl.innerHTML = `${id} useris sekmingai istrintas!!!`;
+        if (val === 1) {
+            createSuccEl.innerHTML = `${id} useris sekmingai istrintas!!!`;
+        } else {
+            createSuccEl.innerHTML = `${id} useris sekmingai atstatytas!!!`;
+        }
     } else {
-        createSuccEl.innerHTML = `${id} userio istrinti nepavyko!!!`;
+        if (val === 1) {
+            createSuccEl.innerHTML = `${id} userio istrinti nepavyko!!!`;
+        } else {
+            createSuccEl.innerHTML = `${id} userio atstatyti nepavyko!!!`;
+        }
     }
     setTimeout(() => {
         createSuccEl.innerHTML = '';
         document.forms[0].reset();
-    }, 3000);
+    }, 5000);
 }
 
 function createTable(arr) {

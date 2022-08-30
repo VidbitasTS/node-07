@@ -63,12 +63,13 @@ app.get('/api/articles', async(req, res) => {
 });
 
 // DELETE /api/articles/:aId
-app.delete('/api/articles/:aId', async(req, res) => {
+app.delete('/api/articles', async(req, res) => {
+    //   console.log(req.query.id, req.query.val);
     try {
         const conn = await mysql.createConnection(dbConfig);
         //        const sql = 'DELETE FROM posts WHERE id = ?';
-        const sql = `UPDATE ${tableName} SET archive = '1' WHERE id = ?`;
-        const [rows] = await conn.execute(sql, [req.params.aId]);
+        const sql = `UPDATE ${tableName} SET archive = ? WHERE id = ?`;
+        const [rows] = await conn.execute(sql, [req.query.val, req.query.id]);
         if (rows.affectedRows === 1) {
             res.json({
                 msg: 'deleted success',

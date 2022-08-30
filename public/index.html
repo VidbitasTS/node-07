@@ -38,6 +38,14 @@
 							<option value="asc">ASC</option>
 							<option value="desc">DESC</option>
 						</select>
+            <select name="fields" id="fields">
+							<option value="space" selected>OrderBy</option>
+							<option value="id">ID</option>
+							<option value="name">NAME</option>
+							<option value="age">AGE</option>
+							<option value="hascar">HASCAR</option>
+							<option value="town">TOWN</option>
+						</select>
             <!-- <button id="nameAsc">Name ASC</button>
             <button id="nameDesc">Name DESC</button> -->
             <!-- <button id="userId">User ID</button> -->
@@ -47,9 +55,9 @@
             <input style="display:inline; width: 100px;" type="text" placeholder="miestas" id="townNumber" value=""> -->
 
             <button id="delete">Delete</button>
-            <input style="display:inline; width: 80px;" type="number" placeholder="del id" id="deleteId" value="">
+            <input style="display:inline; width: 120px;" type="number" placeholder="del/undo id" id="deleteId" value="">
             <button id="undo">Undo</button>
-            <input style="display:inline; width: 80px;" type="number" placeholder="undo id" id="undoId" value="">
+            <!-- <input style="display:inline; width: 80px;" type="number" placeholder="undo id" id="undoId" value=""> -->
         </div>
         <div id="table">
             <table>
