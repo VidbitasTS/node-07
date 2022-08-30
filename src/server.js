@@ -6,10 +6,11 @@ const cors = require('cors');
 // eslint-disable-next-line no-unused-vars
 const colors = require('colors');
 const mysql = require('mysql2/promise');
+const tableName = w_table[1];
 
 const app = express();
 const port = process.env.PORT || 5000;
-console.log(w_table[0]);
+
 // Middleware
 app.use(morgan('dev'));
 app.use(cors());
@@ -22,29 +23,26 @@ app.get('/', (req, res) => {
 // Routes
 // GET /api/articles - grazina visus postus
 app.get('/api/articles', async(req, res) => {
-    // gauti query parametrus
     console.log('req.query ==='.bgGreen, req.query);
-
     try {
         const conn = await mysql.createConnection(dbConfig);
-        let sql = `SELECT * FROM ${w_table[0]}`;
+        let sql = `SELECT * FROM ${tableName}`;
 
-        // if query params id
         if (req.query.id) {
             sql += ' WHERE id = ?';
             const [rows] = await conn.execute(sql, [req.query.id]);
             res.status(200).json(rows);
-            conn.end();
+            await conn.end();
             return;
         }
 
-        // http://localhost:3000/api/articles?orderBy=author
-        // isrikiuoti pagal gauta parametra
-        // if query params limit
         if (req.query.orderBy) {
-            sql += ` ORDER BY ${conn.escapeId(req.query.orderBy)}`;
+            sql += ` ORDER BY ${conn.escapeId(req.query.orderBy)} `;
+            if (req.query.ordered) {
+                sql += req.query.ordered === 'desc' ? 'DESC' : 'ASC';
+            }
         }
-        // if query params limit
+
         if (req.query.limit) {
             sql += ` LIMIT ${conn.escape(+req.query.limit)}`;
         }
@@ -52,7 +50,7 @@ app.get('/api/articles', async(req, res) => {
         console.log('sql ===', sql);
         const [rows] = await conn.query(sql);
         res.status(200).json(rows);
-        conn.end();
+        await conn.end();
     } catch (error) {
         console.log('error ', error);
         res.status(500).json({
@@ -60,28 +58,6 @@ app.get('/api/articles', async(req, res) => {
         });
     }
 });
-
-// GET /api/articles/2 - grazina straipsni kurio id lygus 2 (dinaminis routes)
-// app.get('/api/articles/:aId', async(req, res) => {
-//     const id = req.params.aId;
-//     try {
-//         const conn = await mysql.createConnection(dbConfig);
-//         const sql = 'SELECT * FROM posts WHERE id = ?';
-//         const [rows] = await conn.execute(sql, [id]);
-//         // res.status(200).json(rows[0]);
-//         if (rows.length !== 0) {
-//             res.json(rows);
-//         } else {
-//             res.status(404).json({ msg: 'Articls id not found' });
-//         }
-//         await conn.end();
-//     } catch (error) {
-//         console.log('error ', error);
-//         res.status(500).json({
-//             msg: 'Something went wrong',
-//         });
-//     }
-// });
 
 // DELETE /api/articles/:aId
 app.delete('/api/articles/:aId', async(req, res) => {
