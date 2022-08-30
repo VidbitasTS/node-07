@@ -66,7 +66,6 @@ async function getQuery() {
             qParam += qParam === '' ? '?' : '&';
             qParam += `fields=${fieldsEl.value}&values=${fldvalEl.value}`
         }
-
     }
 
     const orderbyEl = document.querySelector('#orderby');

@@ -21,6 +21,30 @@ app.get('/', (req, res) => {
 });
 
 // Routes
+// Sukurti useri
+app.post('/api/users/', async(req, res) => {
+    console.log('req.body ===', req.body);
+    const {
+        name,
+        age,
+        hasCar,
+        town,
+    } = req.body;
+    try {
+        const conn = await mysql.createConnection(dbConfig);
+        const sql = 'INSERT INTO users (name, age, hasCar, town) VALUES (?, ?, ?, ?)';
+        const [rows] = await conn.execute(sql, [name, age, hasCar, town]);
+        if (rows.affectedRows === 1) {
+            res.status(201).json({ msg: 'User created' });
+        } else {
+            throw new Error('now rows affected');
+        }
+    } catch (error) {
+        console.log('error connecting to db'.bgRed.bold, error);
+        res.status(500).json({ msg: 'something went wrong' });
+    }
+});
+
 // GET /api/articles - grazina visus postus
 app.get('/api/articles', async(req, res) => {
     console.log('req.query ==='.bgGreen, req.query);
@@ -31,7 +55,7 @@ app.get('/api/articles', async(req, res) => {
         if (req.query.fields === 'archive') {
             sql += req.query.values;
         } else {
-            sql += '0';
+            sql += '= 0';
         }
 
         let numId = [];
