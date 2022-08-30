@@ -23,10 +23,23 @@
             </form>
         </div>
         <div>
-            <button id="allUsers">Visi users</button>
-            <input type="search" placeholder="(id)1,2,3..." id="userNumber" value="">
-            <button id="nameAsc">Name ASC</button>
-            <button id="nameDesc">Name DESC</button>
+            <button id="allUsers">Users</button>
+            <input type="search" placeholder="(List id)1,2,3..." id="userNumber" value="">
+            <select name="odered" id="ordered">
+							<option value="space" selected>Ordered</option>
+							<option value="asc">ASC</option>
+							<option value="desc">DESC</option>
+						</select>
+            <select name="oderby" id="orderby">
+							<option value="space" selected>OrderBy</option>
+							<option value="id">ID</option>
+							<option value="name">NAME</option>
+							<option value="age">AGE</option>
+							<option value="hascar">HASCAR</option>
+							<option value="town">TOWN</option>
+						</select>
+            <!-- <button id="nameAsc">Name ASC</button>
+            <button id="nameDesc">Name DESC</button> -->
             <!-- <button id="userId">User ID</button> -->
             <button id="hasCar">hasCar</button>
             <button id="adults">Adults</button>

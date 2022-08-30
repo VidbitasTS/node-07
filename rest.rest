@@ -1,7 +1,7 @@
 GET http://localhost:3000/api/users
 ###
 
-GET http://localhost:3000/api/articles?id=
+GET http://localhost:3000/api/articles?id=1
 ###
 
-GET http://localhost:3000/api/articles/
+GET http://localhost:3000/api/articles/?id=1,2,3,4&orderBy=id&ordered=desc

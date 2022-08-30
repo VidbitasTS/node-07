@@ -6,14 +6,14 @@
 
 // Nusitaikom
 const allUsersEl = document.querySelector('#allUsers');
-const nameAscsEl = document.querySelector('#nameAsc');
-const nameDescsEl = document.querySelector('#nameDesc');
+// const nameAscsEl = document.querySelector('#nameAsc');
+// const nameDescsEl = document.querySelector('#nameDesc');
 const tbodyEl = document.querySelector('tbody');
 const createSuccEl = document.querySelector('#createSucc');
 // const userIdEl = document.querySelector('#userId');
-const hasCarEl = document.querySelector('#hasCar');
-const adultsEl = document.querySelector('#adults');
-const townEl = document.querySelector('#townId');
+// const hasCarEl = document.querySelector('#hasCar');
+// const adultsEl = document.querySelector('#adults');
+// const townEl = document.querySelector('#townId');
 
 // AddEventListener
 document.forms[0].addEventListener('submit', (e) => {
@@ -29,8 +29,8 @@ document.forms[0].addEventListener('submit', (e) => {
 });
 
 allUsersEl.addEventListener('click', async() => await getUsers());
-nameAscsEl.addEventListener('click', async() => await getUsersOrder('asc'));
-nameDescsEl.addEventListener('click', async() => await getUsersOrder('desc'));
+// nameAscsEl.addEventListener('click', async() => await getUsersOrder('asc'));
+// nameDescsEl.addEventListener('click', async() => await getUsersOrder('desc'));
 // userIdEl.addEventListener('click', async() => {
 //     const userNumberEl = document.querySelector('#userNumber');
 //     if (userNumberEl.value === '') {
@@ -39,16 +39,16 @@ nameDescsEl.addEventListener('click', async() => await getUsersOrder('desc'));
 //     }
 //     await getUsersId(userNumberEl.value);
 // });
-hasCarEl.addEventListener('click', async() => await getUsersHasCar());
-adultsEl.addEventListener('click', async() => await getUsersAdults());
-townEl.addEventListener('click', async() => {
-    const townNumberEl = document.querySelector('#townNumber');
-    if (townNumberEl.value === '') {
-        alert('Neivedet miesto');
-        return;
-    }
-    await getUsersTown(townNumberEl.value);
-});
+// hasCarEl.addEventListener('click', async() => await getUsersHasCar());
+// adultsEl.addEventListener('click', async() => await getUsersAdults());
+// townEl.addEventListener('click', async() => {
+//     const townNumberEl = document.querySelector('#townNumber');
+//     if (townNumberEl.value === '') {
+//         alert('Neivedet miesto');
+//         return;
+//     }
+//     await getUsersTown(townNumberEl.value);
+// });
 
 // Funkcijos
 async function createUser(newPostObj) {
@@ -78,38 +78,38 @@ async function getUsers() {
     createTable(await resp.json());
 }
 
-async function getUsersOrder(orderDirect) {
-    const resp = await fetch(`http://localhost:3000/api/users/order/${orderDirect}`);
-    createTable(await resp.json());
-}
+// async function getUsersOrder(orderDirect) {
+//     const resp = await fetch(`http://localhost:3000/api/users/order/${orderDirect}`);
+//     createTable(await resp.json());
+// }
 
-async function getUsersId(id) {
-    const resp = await fetch(`http://localhost:3000/api/users/${id}`);
-    if (!resp.ok) {
-        alert('rezultatu nera !!!');
-        return;
-    }
-    createTable(await resp.json());
-}
+// async function getUsersId(id) {
+//     const resp = await fetch(`http://localhost:3000/api/users/${id}`);
+//     if (!resp.ok) {
+//         alert('rezultatu nera !!!');
+//         return;
+//     }
+//     createTable(await resp.json());
+// }
 
-async function getUsersHasCar() {
-    const resp = await fetch('http://localhost:3000/api/users/drivers');
-    createTable(await resp.json());
-}
+// async function getUsersHasCar() {
+//     const resp = await fetch('http://localhost:3000/api/users/drivers');
+//     createTable(await resp.json());
+// }
 
-async function getUsersAdults() {
-    const resp = await fetch('http://localhost:3000/api/users/adults');
-    createTable(await resp.json());
-}
+// async function getUsersAdults() {
+//     const resp = await fetch('http://localhost:3000/api/users/adults');
+//     createTable(await resp.json());
+// }
 
-async function getUsersTown(name) {
-    const resp = await fetch(`http://localhost:3000/api/users/towns/${name}`);
-    if (!resp.ok) {
-        alert('rezultatu nera !!!');
-        return;
-    }
-    createTable(await resp.json());
-}
+// async function getUsersTown(name) {
+//     const resp = await fetch(`http://localhost:3000/api/users/towns/${name}`);
+//     if (!resp.ok) {
+//         alert('rezultatu nera !!!');
+//         return;
+//     }
+//     createTable(await resp.json());
+// }
 
 function createTable(arr) {
     let allEl = '';

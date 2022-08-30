@@ -41,3 +41,8 @@ td {
 #userNumber:hover {
     width: 200px;
 }
+
+#ordered,
+#orderby {
+    display: inline;
+}
