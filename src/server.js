@@ -54,7 +54,6 @@ app.get('/api/articles', async(req, res) => {
         //       let sql = `SELECT * FROM ${tableName} WHERE archive = 0`;
         let sql = `SELECT * FROM ${tableName} WHERE archive = `;
         if (req.query.fields === 'archive') {
-            //           console.log('escape(req.query.values) ===', [conn.escape(req.query.values)], req.query.values);
             sql += conn.escape(req.query.values);
         } else {
             sql += '\'0\'';
@@ -66,7 +65,6 @@ app.get('/api/articles', async(req, res) => {
             //            let str = numId.reduce((rez) => rez += '?,', '').substring(0, numId.length * 2 - 1);
             let str1 = '';
             for (let i = 0; i <= numId.length - 1; i++) {
-                console.log(numId[i]);
                 if (!(isNaN(parseFloat(numId[i])) || parseFloat(numId[i]) <= 0)) {
                     str1 += '?,';
                 } else {
@@ -74,18 +72,12 @@ app.get('/api/articles', async(req, res) => {
                     return;
                 }
             }
-
             str1 = str1.substring(0, numId.length * 2 - 1);
-            //console.log('str1 ==== ', str1);
             sql += ` AND id IN (${str1})`;
         }
 
         if (req.query.fields !== 'archive' && req.query.fields && req.query.values) {
-            // if (req.query.fields) {
-            // if (req.query.values) {
             sql += ` AND ${req.query.fields} ${req.query.exp} ${req.query.values}`;
-            // }
-            // }
         }
 
         if (req.query.orderBy) {

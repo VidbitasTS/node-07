@@ -64,11 +64,8 @@ async function getQuery() {
     const fldvalEl = document.querySelector('#fldval');
     const expEl = document.querySelector('#exp');
     if (fieldsEl.value !== 'space' && fldvalEl.value !== 'space') {
-
-        //       if (fldvalEl.value !== 'space') {
         qParam += qParam === '' ? '?' : '&';
         qParam += `fields=${fieldsEl.value}&exp=${expEl.value}&values=${fldvalEl.value}`;
-        //        }
     }
 
     const orderbyEl = document.querySelector('#orderby');
@@ -76,9 +73,6 @@ async function getQuery() {
     if (orderbyEl.value !== 'space' && orderedEl.value !== 'space') {
         qParam += qParam === '' ? '?' : '&';
         qParam += `orderBy=${orderbyEl.value}&ordered=${orderedEl.value}`;
-        //  if (orderedEl.value !== 'space') {
-        //qParam += `&ordered=${orderedEl.value}`;
-        // }
     }
     // alert(qParam);
     const resp = await fetch(`http://localhost:3000/api/articles${qParam}`);
