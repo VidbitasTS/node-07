@@ -35,7 +35,7 @@ td {
 
 #userNumber {
     display: inline;
-    width: 130px;
+    width: 100px;
 }
 
 #userNumber:hover {
@@ -44,6 +44,7 @@ td {
 
 #ordered,
 #orderby,
-#fields {
+#fields,
+#exp {
     display: inline;
 }

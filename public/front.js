@@ -8,6 +8,7 @@ const tbodyEl = document.querySelector('tbody');
 const createSuccEl = document.querySelector('#createSucc');
 const deleteEl = document.querySelector('#delete');
 const undoEl = document.querySelector('#undo');
+const expEl = document.querySelector('#exp');
 
 // AddEventListener
 document.forms[0].addEventListener('submit', (e) => {
@@ -60,22 +61,24 @@ async function getQuery() {
     }
 
     const fieldsEl = document.querySelector('#fields');
-    if (fieldsEl.value !== 'space') {
-        const fldvalEl = document.querySelector('#fldval');
-        if (fldvalEl.value !== 'space') {
-            qParam += qParam === '' ? '?' : '&';
-            qParam += `fields=${fieldsEl.value}&values=${fldvalEl.value}`
-        }
+    const fldvalEl = document.querySelector('#fldval');
+    const expEl = document.querySelector('#exp');
+    if (fieldsEl.value !== 'space' && fldvalEl.value !== 'space') {
+
+        //       if (fldvalEl.value !== 'space') {
+        qParam += qParam === '' ? '?' : '&';
+        qParam += `fields=${fieldsEl.value}&exp=${expEl.value}&values=${fldvalEl.value}`;
+        //        }
     }
 
     const orderbyEl = document.querySelector('#orderby');
-    if (orderbyEl.value !== 'space') {
+    const orderedEl = document.querySelector('#ordered');
+    if (orderbyEl.value !== 'space' && orderedEl.value !== 'space') {
         qParam += qParam === '' ? '?' : '&';
-        qParam += `orderBy=${orderbyEl.value}`;
-        const orderedEl = document.querySelector('#ordered');
-        if (orderedEl.value !== 'space') {
-            qParam += `&ordered=${orderedEl.value}`;
-        }
+        qParam += `orderBy=${orderbyEl.value}&ordered=${orderedEl.value}`;
+        //  if (orderedEl.value !== 'space') {
+        //qParam += `&ordered=${orderedEl.value}`;
+        // }
     }
     // alert(qParam);
     const resp = await fetch(`http://localhost:3000/api/articles${qParam}`);

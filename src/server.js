@@ -6,6 +6,7 @@ const cors = require('cors');
 // eslint-disable-next-line no-unused-vars
 const colors = require('colors');
 const mysql = require('mysql2/promise');
+//const { escape } = require('mysql2/promise');
 const tableName = w_table[1];
 
 const app = express();
@@ -16,7 +17,7 @@ app.use(morgan('dev'));
 app.use(cors());
 app.use(express.json());
 
-app.get('/', (req, res) => {
+app.get('/', (_req, res) => {
     res.json({ msg: 'Server online ok' });
 });
 
@@ -51,31 +52,45 @@ app.get('/api/articles', async(req, res) => {
     try {
         const conn = await mysql.createConnection(dbConfig);
         //       let sql = `SELECT * FROM ${tableName} WHERE archive = 0`;
-        let sql = `SELECT * FROM ${tableName} WHERE archive `;
+        let sql = `SELECT * FROM ${tableName} WHERE archive = `;
         if (req.query.fields === 'archive') {
-            sql += req.query.values;
+            //           console.log('escape(req.query.values) ===', [conn.escape(req.query.values)], req.query.values);
+            sql += conn.escape(req.query.values);
         } else {
-            sql += '= 0';
+            sql += '\'0\'';
         }
 
         let numId = [];
         if (req.query.id) {
-            numId = req.query.id.split(',');
-            let str = numId.reduce((rez) => rez += '?,', '').substring(0, numId.length * 2 - 1);
-            sql += ` AND id IN (${str})`;
-        }
-
-        if (req.query.fields !== 'archive') {
-            if (req.query.fields) {
-                if (req.query.values) {
-                    sql += ` AND ${req.query.fields} ${req.query.values}`;
+            numId = req.query.id.trim().split(',');
+            //            let str = numId.reduce((rez) => rez += '?,', '').substring(0, numId.length * 2 - 1);
+            let str1 = '';
+            for (let i = 0; i <= numId.length - 1; i++) {
+                console.log(numId[i]);
+                if (!(isNaN(parseFloat(numId[i])) || parseFloat(numId[i]) <= 0)) {
+                    str1 += '?,';
+                } else {
+                    console.log('blogas parametras');
+                    return;
                 }
             }
+
+            str1 = str1.substring(0, numId.length * 2 - 1);
+            //console.log('str1 ==== ', str1);
+            sql += ` AND id IN (${str1})`;
+        }
+
+        if (req.query.fields !== 'archive' && req.query.fields && req.query.values) {
+            // if (req.query.fields) {
+            // if (req.query.values) {
+            sql += ` AND ${req.query.fields} ${req.query.exp} ${req.query.values}`;
+            // }
+            // }
         }
 
         if (req.query.orderBy) {
-            sql += ` ORDER BY ${conn.escapeId(req.query.orderBy)} `;
             if (req.query.ordered) {
+                sql += ` ORDER BY ${conn.escapeId(req.query.orderBy)} `;
                 sql += req.query.ordered === 'desc' ? 'DESC' : 'ASC';
             }
         }

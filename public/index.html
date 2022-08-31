@@ -46,9 +46,17 @@
 							<option value="town">TOWN</option>
 							<option value="archive">ARCHIVE</option>
 						</select>
-            <input style="display:inline; width: 120px;" type="search" placeholder="Values fields" id="fldval" value="">
+            <select style="display:inline; width: 65px;" name="exp" id="exp">
+							<option value="=" selected>=</option>
+							<option value="!=">!=</option>
+							<option value=">">></option>
+							<option value="<"><</option>
+							<option value=">=">>=</option>
+							<option value="<="><=</option>
+						</select>
+            <input style="display:inline; width: 100px;" type="search" placeholder="Values fields" id="fldval" value="">
             <button id="delete">Delete</button>
-            <input style="display:inline; width: 120px;" type="number" placeholder="del/undo id" id="deleteId" value="">
+            <input style="display:inline; width: 100px;" type="number" placeholder="del/undo id" id="deleteId" value="">
             <button id="undo">Undo</button>
         </div>
         <div id="table">
